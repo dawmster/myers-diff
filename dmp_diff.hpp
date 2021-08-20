@@ -28,6 +28,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <vector>
+#include <sstream>      // std::stringstream
 
 using namespace std;
 
@@ -130,10 +131,15 @@ class MyersDiff {
         Diff(Operation op, Range text_range)
             : operation{op}, text{text_range} {}
         std::string str() const {
-            string ret;
-            ret.push_back(op2chr(operation));
-            ret.push_back('\t');
-            ret.append(text.from, text.till);
+            std::stringstream ss;
+            ss <<(op2chr(operation));
+            ss<< "\t";
+            for (auto it=text.from; it!=text.till; ++ it){
+              ss << *it;
+            }
+
+            string ret = ss.str();
+
             return ret;
         }
     };
